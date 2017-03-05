@@ -1,11 +1,16 @@
 Rails.application.routes.draw do
-  get 'welcome/index'
 
-  get 'welcome/about'
+  resources :posts   # Equivalent, more succint syntax replacing the four below entries (and all RESTful controller actions)
+  # get 'posts/index'  # posts controller, index action
+  # get 'posts/show'   # posts controller, show action
+  # get 'posts/new'    # etc...
+  # get 'posts/edit'
+
+  get 'about' => 'welcome#about'  # allow users to visit '/about', rather than '/welcome/about'
+  get 'faq' => 'welcome#faq'    # allow users to visit '/faq', rather than '/welcome/faq'
+  # Above two entries shorten the URI while still mapping to the welcome controller's actions
 
   root 'welcome#index'
-
-  get 'welcome/faq'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
