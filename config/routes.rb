@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
-  resources :posts   # Equivalent, more succint syntax replacing the four below entries (and all RESTful controller actions)
+  resources :topics do
+    resources :posts, except: [:index]   # Equivalent, more succint syntax replacing the four below entries (and all RESTful controller actions), PRIOR TO refactoring to nest under topics
+  end
+
   # get 'posts/index'  # posts controller, index action
   # get 'posts/show'   # posts controller, show action
   # get 'posts/new'    # etc...
