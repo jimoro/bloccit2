@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # get 'posts/edit'
 
   resources :users, only: [:new, :create]
+  resources :sessions, only: [:new, :create, :destroy]
 
   get 'about' => 'welcome#about'  # allow users to visit '/about', rather than '/welcome/about'
   get 'faq' => 'welcome#faq'    # allow users to visit '/faq', rather than '/welcome/faq'
