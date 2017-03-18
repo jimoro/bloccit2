@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_action :require_sign_in, except: :show
+
   def show
     @post = Post.find(params[:id])
   end
@@ -9,11 +11,13 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new
-    @post.title = params[:post][:title]
-    @post.body = params[:post][:body]
+    # @post = Post.new
+    # @post.title = params[:post][:title]
+    # @post.body = params[:post][:body]
     @topic = Topic.find(params[:topic_id])
-    @post.topic = @topic
+    # @post.topic = @topic
+    @post = @topic.posts.build(post_params)  # replaces 4 commented lines above. Added private post_params method below to remove redundancy of code here and in the update method
+    @post.user = current_user
 
     if @post.save
       flash[:notice] = "Post was saved."
@@ -30,8 +34,9 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    @post.title = params[:post][:title]
-    @post.body = params[:post][:body]
+    # @post.title = params[:post][:title]
+    # @post.body = params[:post][:body]
+    @post.assign_attributes(post_params)  # replaces 2 commented lines above
 
     if @post.save
       flash[:notice] = "Post was updated."
@@ -52,6 +57,13 @@ class PostsController < ApplicationController
       flash.now[:alert] = "There was an error deleting the post."
       render :show
     end
+  end
+
+
+  private
+
+  def post_params
+    params.require(:post).permit(:title, :body)
   end
 
 end
